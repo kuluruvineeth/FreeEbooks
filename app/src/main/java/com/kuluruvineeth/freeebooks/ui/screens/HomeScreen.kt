@@ -2,8 +2,9 @@ package com.kuluruvineeth.freeebooks.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,22 +16,16 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun HomeScreen() {
-    Box(
+    Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Magenta),
-        contentAlignment = Alignment.Center
-    ){
-        Text(
-            text = "HOME",
-            fontSize = MaterialTheme.typography.h3.fontSize,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
-        )
+                    .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen()

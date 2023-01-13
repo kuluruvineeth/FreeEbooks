@@ -2,7 +2,9 @@ package com.kuluruvineeth.freeebooks.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.NavigationBar
@@ -11,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -28,6 +32,28 @@ import com.kuluruvineeth.freeebooks.ui.components.BottomNavGraph
 fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
+        topBar = {
+                 TopAppBar(
+                     title = {
+                         Text(
+                             text = "Good Morning!",
+                             maxLines = 1,
+                             overflow = TextOverflow.Ellipsis
+                         )
+                     },
+                     actions = {
+                         IconButton(onClick = { /*TODO*/ }) {
+                             Icon(
+                                 imageVector = Icons.Filled.Search,
+                                 contentDescription = "Localized description"
+                             )
+                         }
+                     },
+                     colors = TopAppBarDefaults.topAppBarColors(
+                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                     )
+                 )
+        },
         bottomBar = {
             BottomBar(navController = navController)
         }
@@ -65,12 +91,13 @@ fun RowScope.AddItem(
 ) {
     NavigationBarItem(
         label = {
-            Text(text = screen.title)
+            Text(text = screen.title, color = MaterialTheme.colorScheme.onSurface)
         },
         icon = {
             Icon(
                 imageVector = ImageVector.vectorResource(id = screen.icon),
-                contentDescription = "Navigation Icon"
+                contentDescription = "Navigation Icon",
+                tint = MaterialTheme.colorScheme.onSurface
             )
         },
         selected = currentDestination?.hierarchy?.any {
