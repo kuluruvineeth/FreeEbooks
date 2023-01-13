@@ -64,4 +64,9 @@ dependencies {
     //Material3 and Navigation
     implementation 'androidx.compose.material3:material3:1.1.0-alpha04'
     implementation "androidx.navigation:navigation-compose:2.6.0-alpha04"
+
+    // Gson JSON library.
+    implementation 'com.google.code.gson:gson:2.10'
+    // OkHttp library.
+    implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.3"
 }
