@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.kuluruvineeth.freeebooks.ui.screens.HomeScreen
 import com.kuluruvineeth.freeebooks.ui.screens.LibraryScreen
+import com.kuluruvineeth.freeebooks.ui.screens.SearchScreen
 import com.kuluruvineeth.freeebooks.ui.screens.SettingsScreen
 
 @Composable
@@ -16,6 +17,9 @@ fun BottomNavGraph(navController: NavHostController) {
     ){
         composable(route = BottomBarScreen.Home.route){
             HomeScreen()
+        }
+        composable(route = BottomBarScreen.Search.route){
+            SearchScreen()
         }
         composable(route = BottomBarScreen.Library.route){
             LibraryScreen()

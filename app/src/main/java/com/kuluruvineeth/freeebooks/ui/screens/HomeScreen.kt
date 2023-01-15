@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -60,7 +61,7 @@ fun HomeScreen() {
             }
             Box(
                 modifier = Modifier
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ){
@@ -101,12 +102,12 @@ fun BookItemCard(
 ) {
     Card(
         modifier = Modifier
-            .height(165.dp)
+            .height(210.dp)
             .fillMaxWidth(),
         onClick = {},
         colors = CardDefaults.elevatedCardColors(),
         elevation = CardDefaults.elevatedCardElevation(4.dp),
-        shape = RoundedCornerShape(2.dp)
+        shape = RoundedCornerShape(4.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxSize()
@@ -128,7 +129,8 @@ fun BookItemCard(
                 Image(
                     painter = painter, 
                     contentDescription = stringResource(id = R.string.cover_image_desc),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
                 )
                 if(painter.state is AsyncImagePainter.State.Loading){
                     Column(
@@ -155,7 +157,7 @@ fun BookItemCard(
                         )
                         .fillMaxWidth(),
                     fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
-                    fontSize = 18.sp,
+                    fontSize = 22.sp,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurface
