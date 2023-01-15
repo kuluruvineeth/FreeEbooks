@@ -1,15 +1,15 @@
-package com.kuluruvineeth.freeebooks.common
+package com.kuluruvineeth.freeebooks.common.libs
 
-class PaginatorImpl<Key,Item>(
-    private val initialKey: Key,
+class PaginatorImpl<Page,BookSet>(
+    private val initialPage: Page,
     private inline val onLoadUpdated: (Boolean) -> Unit,
-    private inline val onRequest: suspend (nextKey: Key) -> Result<List<Item>>,
-    private inline val getNextKey: suspend (List<Item>) -> Key,
+    private inline val onRequest: suspend (nextPage: Page) -> Result<BookSet>,
+    private inline val getNextPage: suspend (BookSet) -> Page,
     private inline val onError: suspend (Throwable?) -> Unit,
-    private inline val onSuccess: suspend (items: List<Item>, newKey: Key) -> Unit
-) : Paginator<Key, Item>{
+    private inline val onSuccess: suspend (items: BookSet, newPage: Page) -> Unit
+) : Paginator<Page, BookSet> {
 
-    private var currentKey = initialKey
+    private var currentKey = initialPage
     private var isMakingRequest = false
 
     override suspend fun loadNextItems() {
@@ -25,12 +25,12 @@ class PaginatorImpl<Key,Item>(
             onLoadUpdated(false)
             return
         }
-        currentKey = getNextKey(items)
+        currentKey = getNextPage(items)
         onSuccess(items, currentKey)
         onLoadUpdated(false)
     }
 
     override fun reset() {
-        currentKey = initialKey
+        currentKey = initialPage
     }
 }

@@ -10,7 +10,7 @@ data class Book(
     @SerializedName("copyright")
     val copyright: Boolean,
     @SerializedName("download_count")
-    val downloadCount: Int,
+    val downloadCount: Long,
     @SerializedName("formats")
     val formats: Formats,
     @SerializedName("id")

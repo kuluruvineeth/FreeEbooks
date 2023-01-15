@@ -2,13 +2,13 @@ package com.kuluruvineeth.freeebooks.api.models
 
 import com.google.gson.annotations.SerializedName
 
-data class AllBooks(
+data class BookSet(
     @SerializedName("count")
     val count: Int,
     @SerializedName("next")
-    val next: String,
+    val next: String?,
     @SerializedName("previous")
-    val previous: Any,
+    val previous: String?,
     @SerializedName("results")
-    val results: List<Book>
+    val books: List<Book>
 )
