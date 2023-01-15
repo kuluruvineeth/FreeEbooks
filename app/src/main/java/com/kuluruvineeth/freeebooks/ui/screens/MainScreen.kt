@@ -1,6 +1,7 @@
 package com.kuluruvineeth.freeebooks.ui.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -24,6 +26,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kuluruvineeth.freeebooks.ui.components.BottomBarScreen
 import com.kuluruvineeth.freeebooks.ui.components.BottomNavGraph
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,6 +34,12 @@ import com.kuluruvineeth.freeebooks.ui.components.BottomNavGraph
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(
+        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+        darkIcons = !isSystemInDarkTheme()
+    )
     Scaffold(
         topBar = {
                  TopAppBar(
@@ -38,14 +47,17 @@ fun MainScreen() {
                          Text(
                              text = "Good Morning!",
                              maxLines = 1,
-                             overflow = TextOverflow.Ellipsis
+                             overflow = TextOverflow.Ellipsis,
+                             color = MaterialTheme.colorScheme.onSurface,
+                             fontSize = 20.sp
                          )
                      },
                      actions = {
                          IconButton(onClick = { /*TODO*/ }) {
                              Icon(
                                  imageVector = Icons.Filled.Search,
-                                 contentDescription = "Localized description"
+                                 contentDescription = "Localized description",
+                                 tint = MaterialTheme.colorScheme.onSurface
                              )
                          }
                      },

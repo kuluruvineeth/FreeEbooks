@@ -69,4 +69,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10'
     // OkHttp library.
     implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.3"
+    // Coil Image loading library.
+    implementation "io.coil-kt:coil-compose:2.2.2"
+
+    //Accompanist
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.0"
 }
