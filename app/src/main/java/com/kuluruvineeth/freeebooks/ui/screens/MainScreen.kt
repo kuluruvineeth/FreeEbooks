@@ -41,35 +41,10 @@ fun MainScreen() {
 
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
-        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+        color = MaterialTheme.colorScheme.background,
         darkIcons = !isSystemInDarkTheme()
     )
     Scaffold(
-        topBar = {
-                 TopAppBar(
-                     title = {
-                         Text(
-                             text = "Good Morning!",
-                             maxLines = 1,
-                             overflow = TextOverflow.Ellipsis,
-                             color = MaterialTheme.colorScheme.onSurface,
-                             fontSize = 20.sp
-                         )
-                     },
-                     actions = {
-                         IconButton(onClick = { /*TODO*/ }) {
-                             Icon(
-                                 imageVector = Icons.Filled.Star,
-                                 contentDescription = "Localized description",
-                                 tint = MaterialTheme.colorScheme.onSurface
-                             )
-                         }
-                     },
-                     colors = TopAppBarDefaults.topAppBarColors(
-                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                     )
-                 )
-        },
         bottomBar = {
             BottomBar(navController = navController)
         }

@@ -8,12 +8,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +23,7 @@ import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -49,44 +48,90 @@ fun HomeScreen() {
     val viewModel = viewModel<HomeViewModel>()
     val state = viewModel.state
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(top = 6.dp)
     ) {
-        items(state.items.size){i ->
-            val item = state.items[i]
-            Log.d("RESPONSE",item.toString())
-            if(i >= state.items.size-1 && !state.endReached && !state.isLoading){
-                viewModel.loadNextItems()
-            }
-            Box(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ){
-                BookItemCard(
-                    title = item.title,
-                    author = Utils.getAuthorsAsString(item.authors),
-                    coverImageUrl = item.formats.imagejpeg,
-                    language = Utils.getLanguagesAsString(item.languages),
-                    subjects = Utils.getSubjectsAsString(item.subjects,3)
-                )
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(20.dp)
+        ) {
+            TopAppBar()
+            Divider(
+                color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
+                thickness = 2.dp
+            )
         }
-        item {
-            if(state.isLoading){
-                Row(
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(start = 8.dp, end = 8.dp)
+        ) {
+            items(state.items.size){i ->
+                val item = state.items[i]
+                Log.d("RESPONSE",item.toString())
+                if(i >= state.items.size-1 && !state.endReached && !state.isLoading){
+                    viewModel.loadNextItems()
+                }
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    ProgressDots()
+                        .padding(4.dp)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ){
+                    BookItemCard(
+                        title = item.title,
+                        author = Utils.getAuthorsAsString(item.authors),
+                        coverImageUrl = item.formats.imagejpeg,
+                        language = Utils.getLanguagesAsString(item.languages),
+                        subjects = Utils.getSubjectsAsString(item.subjects,3)
+                    )
                 }
             }
+            item {
+                if(state.isLoading){
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        ProgressDots()
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TopAppBar() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 7.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Most Popular",
+            fontSize = 40.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontFamily = FontFamily.Cursive
+        )
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_category_header),
+                contentDescription = stringResource(id = R.string.home_search_icon_desc),
+                tint = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.size(30.dp)
+            )
         }
     }
 }
@@ -96,7 +141,7 @@ fun HomeScreen() {
 fun BookItemCard(
     title: String,
     author: String,
-    coverImageUrl: String,
+    coverImageUrl: String?,
     language: String,
     subjects: String
 ) {
@@ -105,8 +150,11 @@ fun BookItemCard(
             .height(210.dp)
             .fillMaxWidth(),
         onClick = {},
-        colors = CardDefaults.elevatedCardColors(),
-        elevation = CardDefaults.elevatedCardElevation(4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                2.dp
+            )
+        ),
         shape = RoundedCornerShape(6.dp)
     ) {
         Row(
