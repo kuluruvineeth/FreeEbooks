@@ -3,8 +3,11 @@ package com.kuluruvineeth.freeebooks.api
 import android.util.Log
 import com.google.gson.Gson
 import com.kuluruvineeth.freeebooks.api.models.BookSet
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.*
 import java.io.IOException
+import java.net.URLEncoder
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -21,6 +24,14 @@ class BooksApi {
 
     suspend fun getAllBooks(page: Long): Result<BookSet>{
         val request = Request.Builder().get().url("${BASE_URL}?page=$page").build()
+        return makeApiRequest(request)
+    }
+
+    suspend fun searchBooks(query: String): Result<BookSet>{
+        val encodedString = withContext(Dispatchers.IO){
+            URLEncoder.encode(query, "UTF-8")
+        }
+        val request = Request.Builder().get().url("${BASE_URL}?search=$encodedString").build()
         return makeApiRequest(request)
     }
 

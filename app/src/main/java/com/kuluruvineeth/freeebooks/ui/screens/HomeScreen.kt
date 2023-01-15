@@ -38,6 +38,7 @@ import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.common.compose.ProgressDots
+import com.kuluruvineeth.freeebooks.ui.common.BookItemCard
 import com.kuluruvineeth.freeebooks.ui.viewmodels.HomeViewModel
 import com.kuluruvineeth.freeebooks.utils.Utils
 
@@ -136,119 +137,7 @@ fun TopAppBar() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BookItemCard(
-    title: String,
-    author: String,
-    coverImageUrl: String?,
-    language: String,
-    subjects: String
-) {
-    Card(
-        modifier = Modifier
-            .height(210.dp)
-            .fillMaxWidth(),
-        onClick = {},
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                2.dp
-            )
-        ),
-        shape = RoundedCornerShape(6.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Box(
-                modifier = Modifier
-                    .weight(1.5f)
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(6.dp))
-            ) {
-                val painter = rememberAsyncImagePainter(
-                    ImageRequest.Builder(LocalContext.current).data(data = coverImageUrl)
-                        .apply(block = fun ImageRequest.Builder.() {
-                            placeholder(R.drawable.placeholder_cat)
-                            error(R.drawable.placeholder_cat)
-                            crossfade(800)
-                        }).build()
-                )
-                Image(
-                    painter = painter, 
-                    contentDescription = stringResource(id = R.string.cover_image_desc),
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-                if(painter.state is AsyncImagePainter.State.Loading){
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-            }
-            Column(
-                modifier = Modifier
-                    .weight(3f)
-                    .fillMaxHeight()
-            ) {
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = title,
-                    modifier = Modifier
-                        .padding(
-                            start = 12.dp,
-                            end = 8.dp,
-                            top = 8.dp
-                        )
-                        .fillMaxWidth(),
-                    fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
-                    fontSize = 22.sp,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = author,
-                    modifier = Modifier.padding(
-                        start = 12.dp,
-                        end = 8.dp
-                    ),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle
-                )
 
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = language,
-                    modifier = Modifier.padding(
-                        start = 12.dp,
-                        end = 8.dp
-                    ),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 18.sp,
-                    fontStyle = MaterialTheme.typography.bodyMedium.fontStyle
-                )
-
-                Text(
-                    text = subjects,
-                    modifier = Modifier.padding(start = 12.dp, end = 8.dp, bottom = 2.dp),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-            }
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable

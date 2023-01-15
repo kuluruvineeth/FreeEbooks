@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kuluruvineeth.freeebooks.navigation.BottomBarScreen
 import com.kuluruvineeth.freeebooks.navigation.BottomNavGraph
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,7 +121,9 @@ fun CustomBottomNavigationItem(
             AnimatedVisibility(visible = isSelected) {
                 Text(
                     text = stringResource(id = screen.title),
-                    color = contentColor
+                    color = contentColor,
+                    fontFamily = comfortFont,
+                    modifier = Modifier.padding(start = 4.dp)
                 )
             }
         }

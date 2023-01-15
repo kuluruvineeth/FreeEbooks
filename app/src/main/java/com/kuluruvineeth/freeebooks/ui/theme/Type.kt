@@ -31,4 +31,27 @@ val Typography = Typography(
     */
 )
 
-val cairoFont = FontFamily(Font(R.font.figerona_extrabold))
+val comfortFont = FontFamily(
+    fonts = listOf(
+        Font(
+            resId = R.font.figerona_bold,
+            weight = FontWeight.Bold
+        ),
+        Font(
+            resId = R.font.figerona_light,
+            weight = FontWeight.Light
+        ),
+        Font(
+            resId = R.font.figerona_medium,
+            weight = FontWeight.Medium
+        ),
+        Font(
+            resId = R.font.figerona_regular,
+            weight = FontWeight.Normal
+        ),
+        Font(
+            resId = R.font.figerona_semibold,
+            weight = FontWeight.SemiBold
+        )
+    )
+)
