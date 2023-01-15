@@ -40,6 +40,7 @@ import coil.request.ImageRequest
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.common.compose.ProgressDots
 import com.kuluruvineeth.freeebooks.ui.viewmodels.HomeViewModel
+import com.kuluruvineeth.freeebooks.utils.Utils
 
 
 @Composable
@@ -52,6 +53,7 @@ fun HomeScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+            .padding(top = 6.dp)
     ) {
         items(state.items.size){i ->
             val item = state.items[i]
@@ -61,17 +63,16 @@ fun HomeScreen() {
             }
             Box(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(4.dp)
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ){
                 BookItemCard(
                     title = item.title,
-                    author = item.authors.first().name,
+                    author = Utils.getAuthorsAsString(item.authors),
                     coverImageUrl = item.formats.imagejpeg,
-                    language = item.languages.first(),
-                    subjects = item.subjects.first(),
-                    downloadCount = item.downloadCount
+                    language = Utils.getLanguagesAsString(item.languages),
+                    subjects = Utils.getSubjectsAsString(item.subjects,3)
                 )
             }
         }
@@ -97,8 +98,7 @@ fun BookItemCard(
     author: String,
     coverImageUrl: String,
     language: String,
-    subjects: String,
-    downloadCount: Long
+    subjects: String
 ) {
     Card(
         modifier = Modifier
@@ -107,7 +107,7 @@ fun BookItemCard(
         onClick = {},
         colors = CardDefaults.elevatedCardColors(),
         elevation = CardDefaults.elevatedCardElevation(4.dp),
-        shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(6.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxSize()
@@ -153,7 +153,8 @@ fun BookItemCard(
                     modifier = Modifier
                         .padding(
                             start = 12.dp,
-                            end = 8.dp
+                            end = 8.dp,
+                            top = 8.dp
                         )
                         .fillMaxWidth(),
                     fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
@@ -168,7 +169,9 @@ fun BookItemCard(
                         start = 12.dp,
                         end = 8.dp
                     ),
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2,
+                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -180,33 +183,20 @@ fun BookItemCard(
                         end = 8.dp
                     ),
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 15.sp
+                    fontSize = 18.sp,
+                    fontStyle = MaterialTheme.typography.bodyMedium.fontStyle
                 )
 
                 Text(
                     text = subjects,
-                    modifier = Modifier.padding(start = 12.dp, end = 8.dp),
+                    modifier = Modifier.padding(start = 12.dp, end = 8.dp, bottom = 2.dp),
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontStyle = FontStyle.Italic
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Row(
-                    modifier = Modifier.padding(start = 12.dp, end = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_download),
-                        contentDescription = stringResource(id = R.string.download_button_desc),
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
-
-                    Text(
-                        text = downloadCount.toString(),
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                }
+                Spacer(modifier = Modifier.weight(1f))
             }
         }
     }

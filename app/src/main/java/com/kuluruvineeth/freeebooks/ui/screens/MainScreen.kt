@@ -8,13 +8,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,15 +24,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.kuluruvineeth.freeebooks.ui.components.BottomBarScreen
-import com.kuluruvineeth.freeebooks.ui.components.BottomNavGraph
+import com.kuluruvineeth.freeebooks.navigation.BottomBarScreen
+import com.kuluruvineeth.freeebooks.navigation.BottomNavGraph
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
@@ -80,7 +74,7 @@ fun MainScreen() {
             BottomBar(navController = navController)
         }
     ) {
-        BottomNavGraph(navController = navController)
+        BottomNavGraph(navController = navController,it)
     }
 }
 

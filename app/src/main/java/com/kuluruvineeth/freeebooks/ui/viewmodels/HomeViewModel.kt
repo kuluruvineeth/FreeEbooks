@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kuluruvineeth.freeebooks.api.BooksApi
 import com.kuluruvineeth.freeebooks.api.models.Book
-import com.kuluruvineeth.freeebooks.common.libs.PaginatorImpl
+import com.kuluruvineeth.freeebooks.others.PaginatorImpl
 import kotlinx.coroutines.launch
 
 

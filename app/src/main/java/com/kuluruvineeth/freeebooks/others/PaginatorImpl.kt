@@ -1,4 +1,4 @@
-package com.kuluruvineeth.freeebooks.common.libs
+package com.kuluruvineeth.freeebooks.others
 
 class PaginatorImpl<Page,BookSet>(
     private val initialPage: Page,

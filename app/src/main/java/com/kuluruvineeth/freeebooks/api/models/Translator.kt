@@ -8,5 +8,5 @@ data class Translator(
     @SerializedName("death_year")
     val deathYear: Int,
     @SerializedName("name")
-    val name: String
+    val name: String = "N/A"
 )

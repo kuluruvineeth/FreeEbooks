@@ -1,4 +1,4 @@
-package com.kuluruvineeth.freeebooks.common.libs
+package com.kuluruvineeth.freeebooks.others
 
 interface Paginator<Key, BookSet> {
 

@@ -1,4 +1,4 @@
-package com.kuluruvineeth.freeebooks.ui.components
+package com.kuluruvineeth.freeebooks.navigation
 
 import com.kuluruvineeth.freeebooks.R
 
