@@ -30,6 +30,8 @@ android {
                                       "$projectDir/schemas".toString()]
             }
         }
+
+        buildConfigField("String","API_KEY",GOOGLE_API_KEY)
     }
 
     buildTypes {
@@ -61,6 +63,8 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+
 }
 
 dependencies {

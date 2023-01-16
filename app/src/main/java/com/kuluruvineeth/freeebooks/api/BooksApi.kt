@@ -2,6 +2,7 @@ package com.kuluruvineeth.freeebooks.api
 
 import android.util.Log
 import com.google.gson.Gson
+import com.kuluruvineeth.freeebooks.BuildConfig
 import com.kuluruvineeth.freeebooks.api.models.BookSet
 import com.kuluruvineeth.freeebooks.api.models.ExtraInfo
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,7 @@ class BooksApi {
     companion object BookApiConstants{
         const val BASE_URL = "https://gutendex.com/books"
         const val GOOGLE_BOOKS_URL = "https://www.googleapis.com/books/v1/volumes"
-        const val GOOGLE_API_KEY = "AIzaSyAFkVBuY2dMvwlk-K8K436Aijago0t8pzY"
+        val GOOGLE_API_KEY = BuildConfig.API_KEY
     }
 
     private val okHttpClient = OkHttpClient()
