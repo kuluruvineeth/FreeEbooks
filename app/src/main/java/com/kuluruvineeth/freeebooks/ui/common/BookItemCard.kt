@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.kuluruvineeth.freeebooks.R
 
@@ -28,13 +28,14 @@ fun BookItemCard(
     author: String,
     coverImageUrl: String?,
     language: String,
-    subjects: String
+    subjects: String,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .height(210.dp)
             .fillMaxWidth(),
-        onClick = {},
+        onClick = onClick,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                 2.dp
@@ -51,7 +52,7 @@ fun BookItemCard(
                     .padding(8.dp)
                     .clip(RoundedCornerShape(6.dp))
             ) {
-                val painter = rememberAsyncImagePainter(
+                val painter = rememberImagePainter(
                     ImageRequest.Builder(LocalContext.current).data(data = coverImageUrl)
                         .apply(block = fun ImageRequest.Builder.() {
                             placeholder(R.drawable.placeholder_cat)
@@ -65,7 +66,7 @@ fun BookItemCard(
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
-                if(painter.state is AsyncImagePainter.State.Loading){
+                if(painter.state is ImagePainter.State.Loading){
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,

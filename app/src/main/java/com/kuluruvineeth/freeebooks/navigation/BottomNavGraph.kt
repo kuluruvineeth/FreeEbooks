@@ -25,7 +25,7 @@ fun BottomNavGraph(
         composable(route = BottomBarScreen.Home.route){
             HomeScreen()
         }
-        composable(route = BottomBarScreen.Search.route){
+        composable(route = BottomBarScreen.Categories.route){
             CategoriesScreen()
         }
         composable(route = BottomBarScreen.Library.route){
