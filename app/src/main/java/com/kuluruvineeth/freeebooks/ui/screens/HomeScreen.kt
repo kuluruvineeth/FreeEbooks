@@ -1,10 +1,7 @@
 package com.kuluruvineeth.freeebooks.ui.screens
 
-import android.content.res.Resources
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,40 +20,27 @@ import androidx.compose.material3.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.ImagePainter
-import coil.compose.rememberImagePainter
-import coil.request.ImageRequest
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.common.compose.ProgressDots
 import com.kuluruvineeth.freeebooks.navigation.Screens
@@ -64,7 +48,7 @@ import com.kuluruvineeth.freeebooks.ui.common.BookItemCard
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 import com.kuluruvineeth.freeebooks.ui.viewmodels.HomeViewModel
 import com.kuluruvineeth.freeebooks.ui.viewmodels.UserAction
-import com.kuluruvineeth.freeebooks.utils.Utils
+import com.kuluruvineeth.freeebooks.utils.BookUtils
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -157,10 +141,10 @@ fun HomeScreen(navController: NavController) {
                         ){
                             BookItemCard(
                                 title = item.title,
-                                author = Utils.getAuthorsAsString(item.authors),
+                                author = BookUtils.getAuthorsAsString(item.authors),
                                 coverImageUrl = item.formats.imagejpeg,
-                                language = Utils.getLanguagesAsString(item.languages),
-                                subjects = Utils.getSubjectsAsString(item.subjects,3)
+                                language = BookUtils.getLanguagesAsString(item.languages),
+                                subjects = BookUtils.getSubjectsAsString(item.subjects,3)
                             ){
                                 navController.navigate(Screens.BookDetailScreen.withBookId(item.id))
                             }
@@ -210,10 +194,10 @@ fun HomeScreen(navController: NavController) {
                     ){
                         BookItemCard(
                             title = item.title,
-                            author = Utils.getAuthorsAsString(item.authors),
+                            author = BookUtils.getAuthorsAsString(item.authors),
                             coverImageUrl = item.formats.imagejpeg,
-                            language = Utils.getLanguagesAsString(item.languages),
-                            subjects = Utils.getSubjectsAsString(item.subjects,3)
+                            language = BookUtils.getLanguagesAsString(item.languages),
+                            subjects = BookUtils.getSubjectsAsString(item.subjects,3)
                         ) {
                             navController.navigate(Screens.BookDetailScreen.withBookId(item.id))
                         }

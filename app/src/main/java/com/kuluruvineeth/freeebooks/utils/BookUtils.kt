@@ -4,7 +4,7 @@ import com.kuluruvineeth.freeebooks.api.models.Author
 import java.util.Locale
 
 
-object Utils {
+object BookUtils {
 
     fun getAuthorsAsString(authors: List<Author>): String{
 
@@ -14,16 +14,23 @@ object Utils {
                 result = authors.first().name
                 authors.slice(1 until authors.size).forEach { author ->
                     if(author.name != "N/A")
-                        result += ", ${author.name}"
+                        result += ", ${fixAuthorName(author.name)}"
                 }
             }else{
-                result = authors.first().name
+                result = fixAuthorName(authors.first().name)
             }
             return result
         } else{
             "Unknown Author"
         }
 
+    }
+
+    private fun fixAuthorName(name: String): String{
+        val reversed = name.split(",").reversed()
+        return reversed.joinToString(separator = " "){
+            return@joinToString it.trim()
+        }
     }
 
     fun getLanguagesAsString(languages: List<String>): String{

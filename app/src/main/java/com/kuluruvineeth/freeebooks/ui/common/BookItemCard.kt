@@ -20,6 +20,7 @@ import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.kuluruvineeth.freeebooks.R
+import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +34,7 @@ fun BookItemCard(
 ) {
     Card(
         modifier = Modifier
-            .height(200.dp)
+            .height(185.dp)
             .fillMaxWidth(),
         onClick = onClick,
         colors = CardDefaults.cardColors(
@@ -57,7 +58,7 @@ fun BookItemCard(
                         .apply(block = fun ImageRequest.Builder.() {
                             placeholder(R.drawable.placeholder_cat)
                             error(R.drawable.placeholder_cat)
-                            crossfade(800)
+                            crossfade(500)
                         }).build()
                 )
                 Image(
@@ -87,12 +88,11 @@ fun BookItemCard(
                     modifier = Modifier
                         .padding(
                             start = 12.dp,
-                            end = 8.dp,
-                            top = 8.dp
+                            end = 8.dp
                         )
                         .fillMaxWidth(),
                     fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
-                    fontSize = 22.sp,
+                    fontSize = 20.sp,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurface
@@ -105,7 +105,9 @@ fun BookItemCard(
                     ),
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
-                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle
+                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                    fontSize = 14.sp,
+                    fontFamily = comfortFont
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -117,7 +119,7 @@ fun BookItemCard(
                         end = 8.dp
                     ),
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontStyle = MaterialTheme.typography.bodyMedium.fontStyle
                 )
 
@@ -127,8 +129,11 @@ fun BookItemCard(
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle
+                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                    fontFamily = comfortFont,
+                    fontSize = 13.sp
                 )
+                Spacer(modifier = Modifier.weight(1f))
             }
         }
     }

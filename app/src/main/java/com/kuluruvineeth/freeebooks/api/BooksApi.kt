@@ -27,6 +27,10 @@ class BooksApi {
         return makeApiRequest(request)
     }
 
+    suspend fun getBookDescription(bookName: String){
+
+    }
+
     suspend fun searchBooks(query: String): Result<BookSet>{
         val encodedString = withContext(Dispatchers.IO){
             URLEncoder.encode(query, "UTF-8")
