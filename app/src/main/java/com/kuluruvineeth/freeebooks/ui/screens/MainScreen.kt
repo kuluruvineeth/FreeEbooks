@@ -7,8 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -21,15 +19,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kuluruvineeth.freeebooks.navigation.BottomBarScreen
-import com.kuluruvineeth.freeebooks.navigation.BottomNavGraph
+import com.kuluruvineeth.freeebooks.navigation.NavGraph
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 
@@ -50,7 +46,7 @@ fun MainScreen() {
             BottomBar(navController = navController)
         }
     ) {
-        BottomNavGraph(navController = navController,it)
+        NavGraph(navController = navController,it)
     }
 }
 
@@ -64,24 +60,26 @@ fun BottomBar(navController: NavHostController) {
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+    val bottomBarDestination = screens.any { it.route == currentDestination?.route }
 
-
-    Row(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
-            .padding(8.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        screens.forEach { screen ->
-            CustomBottomNavigationItem(
-                screen = screen,
-                isSelected = screen.route == currentDestination?.route
-            ){
-                navController.navigate(screen.route){
-                    popUpTo(navController.graph.findStartDestination().id)
-                    launchSingleTop = true
+    if(bottomBarDestination){
+        Row(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                .padding(8.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            screens.forEach { screen ->
+                CustomBottomNavigationItem(
+                    screen = screen,
+                    isSelected = screen.route == currentDestination?.route
+                ){
+                    navController.navigate(screen.route){
+                        popUpTo(navController.graph.findStartDestination().id)
+                        launchSingleTop = true
+                    }
                 }
             }
         }

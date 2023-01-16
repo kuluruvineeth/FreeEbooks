@@ -1,29 +1,32 @@
 package com.kuluruvineeth.freeebooks.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
-import com.kuluruvineeth.freeebooks.ui.screens.CategoriesScreen
-import com.kuluruvineeth.freeebooks.ui.screens.HomeScreen
-import com.kuluruvineeth.freeebooks.ui.screens.LibraryScreen
-import com.kuluruvineeth.freeebooks.ui.screens.SettingsScreen
+import androidx.navigation.navArgument
+import com.kuluruvineeth.freeebooks.ui.screens.*
 
 @Composable
-fun BottomNavGraph(
+fun NavGraph(
     navController: NavHostController,
     paddingValues: PaddingValues
 ) {
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.Home.route,
-        modifier = Modifier.padding(paddingValues)
+        modifier = Modifier
+            .padding(paddingValues)
+            .background(MaterialTheme.colorScheme.background)
     ){
         composable(route = BottomBarScreen.Home.route){
-            HomeScreen()
+            HomeScreen(navController)
         }
         composable(route = BottomBarScreen.Categories.route){
             CategoriesScreen()
@@ -33,6 +36,18 @@ fun BottomNavGraph(
         }
         composable(route = BottomBarScreen.Settings.route){
             SettingsScreen()
+        }
+
+        //Other Screens
+        composable(
+            route = Screens.BookDetailScreen.route, arguments = listOf(
+                navArgument(BOOK_DETAIL_ARG_KEY){
+                    type = NavType.IntType
+                }
+            )
+        ){backStackEntry ->
+            val bookId = backStackEntry.arguments!!.getInt(BOOK_DETAIL_ARG_KEY)
+            BookDetailScreen(bookId)
         }
     }
 }

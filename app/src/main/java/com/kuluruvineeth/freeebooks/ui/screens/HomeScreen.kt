@@ -52,11 +52,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.common.compose.ProgressDots
+import com.kuluruvineeth.freeebooks.navigation.Screens
 import com.kuluruvineeth.freeebooks.ui.common.BookItemCard
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 import com.kuluruvineeth.freeebooks.ui.viewmodels.HomeViewModel
@@ -66,10 +69,10 @@ import com.kuluruvineeth.freeebooks.utils.Utils
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
 
     val viewModel = viewModel<HomeViewModel>()
-    val state = viewModel.state
+    val allBooksState = viewModel.allBooksState
     val topBarState = viewModel.topBarState
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -125,7 +128,7 @@ fun HomeScreen() {
         //If search text is empty show list of all books
         if(topBarState.searchText.isBlank()){
             //show fullscreen progress indicator when loading the first page
-            if(state.page == 1L && state.isLoading){
+            if(allBooksState.page == 1L && allBooksState.isLoading){
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -141,9 +144,9 @@ fun HomeScreen() {
                         .background(MaterialTheme.colorScheme.background)
                         .padding(start = 8.dp, end = 8.dp)
                 ) {
-                    items(state.items.size){i ->
-                        val item = state.items[i]
-                        if(i >= state.items.size-1 && !state.endReached && !state.isLoading){
+                    items(allBooksState.items.size){i ->
+                        val item = allBooksState.items[i]
+                        if(i >= allBooksState.items.size-1 && !allBooksState.endReached && !allBooksState.isLoading){
                             viewModel.loadNextItems()
                         }
                         Box(
@@ -159,12 +162,12 @@ fun HomeScreen() {
                                 language = Utils.getLanguagesAsString(item.languages),
                                 subjects = Utils.getSubjectsAsString(item.subjects,3)
                             ){
-
+                                navController.navigate(Screens.BookDetailScreen.withBookId(item.id))
                             }
                         }
                     }
                     item {
-                        if(state.isLoading){
+                        if(allBooksState.isLoading){
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -212,7 +215,7 @@ fun HomeScreen() {
                             language = Utils.getLanguagesAsString(item.languages),
                             subjects = Utils.getSubjectsAsString(item.subjects,3)
                         ) {
-                            //TODO: Handle book item clicks
+                            navController.navigate(Screens.BookDetailScreen.withBookId(item.id))
                         }
                     }
                 }
@@ -328,5 +331,5 @@ fun SearchAppBar(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(navController = rememberNavController())
 }
