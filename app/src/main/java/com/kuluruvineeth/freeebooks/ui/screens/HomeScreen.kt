@@ -146,7 +146,7 @@ fun HomeScreen(navController: NavController) {
                                 language = BookUtils.getLanguagesAsString(item.languages),
                                 subjects = BookUtils.getSubjectsAsString(item.subjects,3)
                             ){
-                                navController.navigate(Screens.BookDetailScreen.withBookId(item.id))
+                                navController.navigate(Screens.BookDetailScreen.withBookId(item.id.toString()))
                             }
                         }
                     }
@@ -199,7 +199,7 @@ fun HomeScreen(navController: NavController) {
                             language = BookUtils.getLanguagesAsString(item.languages),
                             subjects = BookUtils.getSubjectsAsString(item.subjects,3)
                         ) {
-                            navController.navigate(Screens.BookDetailScreen.withBookId(item.id))
+                            navController.navigate(Screens.BookDetailScreen.withBookId(item.id.toString()))
                         }
                     }
                 }

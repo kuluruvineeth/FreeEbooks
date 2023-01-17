@@ -39,8 +39,6 @@ sealed class UserAction {
 
 
 class HomeViewModel : ViewModel() {
-
-    private val bookApi = BooksApi()
     var allBooksState by mutableStateOf(AllBooksState())
     var topBarState by mutableStateOf(TopBarState())
 
@@ -50,7 +48,7 @@ class HomeViewModel : ViewModel() {
             allBooksState = allBooksState.copy(isLoading = it)
         },
         onRequest = {nextPage ->
-            bookApi.getAllBooks(nextPage)
+            BooksApi.getAllBooks(nextPage)
         },
         getNextPage = {
             allBooksState.page + 1L
@@ -108,7 +106,7 @@ class HomeViewModel : ViewModel() {
     }
 
     private suspend fun searchBooks(query: String){
-        val bookSet = bookApi.searchBooks(query)
+        val bookSet = BooksApi.searchBooks(query)
         topBarState = topBarState.copy(
             searchResults = bookSet.getOrNull()!!.books,
             isSearching = false

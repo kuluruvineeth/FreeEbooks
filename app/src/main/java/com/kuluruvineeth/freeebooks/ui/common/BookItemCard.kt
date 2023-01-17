@@ -1,6 +1,8 @@
 package com.kuluruvineeth.freeebooks.ui.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
@@ -47,11 +49,17 @@ fun BookItemCard(
         Row(
             modifier = Modifier.fillMaxSize()
         ) {
+            val imageBackground = if(isSystemInDarkTheme()){
+                MaterialTheme.colorScheme.onSurface
+            }else{
+                MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp)
+            }
             Box(
                 modifier = Modifier
                     .weight(1.5f)
                     .padding(8.dp)
                     .clip(RoundedCornerShape(6.dp))
+                    .background(imageBackground)
             ) {
                 val painter = rememberImagePainter(
                     ImageRequest.Builder(LocalContext.current).data(data = coverImageUrl)
