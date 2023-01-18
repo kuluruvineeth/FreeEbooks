@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.kuluruvineeth.freeebooks.MainActivity
 import com.kuluruvineeth.freeebooks.ui.viewmodels.BookDetailViewModel
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.common.compose.ProgressDots
@@ -38,6 +39,7 @@ import com.kuluruvineeth.freeebooks.others.NetworkObserver
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 import com.kuluruvineeth.freeebooks.utils.BookUtils
 import com.kuluruvineeth.freeebooks.utils.Utils
+import com.kuluruvineeth.freeebooks.utils.getActivity
 
 
 @Composable
@@ -204,7 +206,10 @@ fun BookDetailScreen(
                 bookLang = BookUtils.getLanguagesAsString(state.item.books.first().languages),
                 pageCount = pageCount
             ){
-                //TODO: Handle download button click
+                viewModel.downloadBook(
+                    state.item.books.first(),
+                    (context.getActivity() as MainActivity)
+                )
             }
             Text(
                 text = stringResource(id = R.string.book_synopsis),

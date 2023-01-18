@@ -1,6 +1,10 @@
 package com.kuluruvineeth.freeebooks
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -11,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.app.ActivityCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kuluruvineeth.freeebooks.others.NetworkObserver
 import com.kuluruvineeth.freeebooks.ui.screens.MainScreen
@@ -40,6 +45,17 @@ class MainActivity : ComponentActivity() {
                 )
                 MainScreen(status)
             }
+        }
+    }
+
+    fun checkStoragePermission(): Boolean{
+        return if(checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            Log.d("MainActivity::Storage", "Permission is granted"); true
+        }else{
+            Log.d("MainActivity::Storage","Permission is revoked")
+            ActivityCompat.requestPermissions(
+                this, arrayOf(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),1
+            ); false
         }
     }
 }
