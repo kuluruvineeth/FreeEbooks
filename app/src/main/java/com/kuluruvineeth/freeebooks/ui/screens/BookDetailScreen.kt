@@ -34,191 +34,200 @@ import coil.compose.rememberImagePainter
 import com.kuluruvineeth.freeebooks.ui.viewmodels.BookDetailViewModel
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.common.compose.ProgressDots
+import com.kuluruvineeth.freeebooks.others.NetworkObserver
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 import com.kuluruvineeth.freeebooks.utils.BookUtils
 import com.kuluruvineeth.freeebooks.utils.Utils
 
 
 @Composable
-fun BookDetailScreen(bookId: String, navController: NavController) {
+fun BookDetailScreen(
+    bookId: String,
+    navController: NavController,
+    networkStatus: NetworkObserver.Status
+) {
     val viewModel = viewModel<BookDetailViewModel>()
     viewModel.getBookDetails(bookId)
     val state = viewModel.state
     val context = LocalContext.current
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        TopAppBar(
-            onBackClicked = {
-                navController.navigateUp()
-            },
-            onShareClicked = {
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.type = "text/plain"
-                intent.putExtra(Intent.EXTRA_TEXT,"https://www.gutenberg.org/ebooks/$bookId")
-                val chooser = Intent.createChooser(
-                    intent,
-                    context.getString(R.string.share_intent_header)
-                )
-                context.startActivity(chooser)
-            }
-        )
-        if(state.isLoading){
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 65.dp),
-                contentAlignment = Alignment.Center
-            ){
-                ProgressDots()
-            }
-        }else{
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
-                    .verticalScroll(rememberScrollState())
-            ) {
+    if(networkStatus == NetworkObserver.Status.Available){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            TopAppBar(
+                onBackClicked = {
+                    navController.navigateUp()
+                },
+                onShareClicked = {
+                    val intent = Intent(Intent.ACTION_SEND)
+                    intent.type = "text/plain"
+                    intent.putExtra(Intent.EXTRA_TEXT,"https://www.gutenberg.org/ebooks/$bookId")
+                    val chooser = Intent.createChooser(
+                        intent,
+                        context.getString(R.string.share_intent_header)
+                    )
+                    context.startActivity(chooser)
+                }
+            )
+            if(state.isLoading){
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(260.dp)
+                        .fillMaxSize()
+                        .padding(bottom = 65.dp),
+                    contentAlignment = Alignment.Center
                 ){
-                    Image(
-                        painter = painterResource(id = R.drawable.book_details_bg),
-                        contentDescription = "",
-                        alpha = 0.2f,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
+                    ProgressDots()
+                }
+            }else{
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                        .verticalScroll(rememberScrollState())
+                ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                Brush.verticalGradient(
-                                    colors = listOf(
-                                        MaterialTheme.colorScheme.background,
-                                        Color.Transparent,
-                                        MaterialTheme.colorScheme.background
-                                    ),
-                                    startY = 15f
-                                )
-                            )
-                    )
-                    Row(modifier = Modifier.fillMaxSize()) {
-                        val imageUrl = state.extraInfo.coverImage.ifEmpty {
-                            state.item.books.first().formats.imagejpeg
-                        }
-                        val painter = rememberImagePainter(
-                            data = imageUrl,
-                            builder = {
-                                placeholder(R.drawable.book_details_bg)
-                                error(R.drawable.placeholder_cat)
-                                crossfade(500)
-                            }
+                            .fillMaxWidth()
+                            .height(260.dp)
+                    ){
+                        Image(
+                            painter = painterResource(id = R.drawable.book_details_bg),
+                            contentDescription = "",
+                            alpha = 0.2f,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
                         )
                         Box(
                             modifier = Modifier
-                                .fillMaxHeight()
-                                .padding(16.dp),
-                            contentAlignment = Alignment.Center
-                        ){
-                            Box(modifier = Modifier.shadow(24.dp)){
-                                Image(
-                                    painter = painter,
-                                    contentDescription = "",
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .width(118.dp)
-                                        .height(169.dp),
-                                    contentScale = ContentScale.Crop
-                                )
-                            }
-                        }
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = state.item.books.first().title,
-                                modifier = Modifier
-                                    .padding(
-                                        start = 12.dp,
-                                        end = 8.dp,
-                                        top = 20.dp
+                                .fillMaxSize()
+                                .background(
+                                    Brush.verticalGradient(
+                                        colors = listOf(
+                                            MaterialTheme.colorScheme.background,
+                                            Color.Transparent,
+                                            MaterialTheme.colorScheme.background
+                                        ),
+                                        startY = 15f
                                     )
-                                    .fillMaxWidth(),
-                                fontSize = 24.sp,
-                                fontFamily = comfortFont,
-                                fontWeight = FontWeight.Bold,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                                color = MaterialTheme.colorScheme.onBackground
+                                )
+                        )
+                        Row(modifier = Modifier.fillMaxSize()) {
+                            val imageUrl = state.extraInfo.coverImage.ifEmpty {
+                                state.item.books.first().formats.imagejpeg
+                            }
+                            val painter = rememberImagePainter(
+                                data = imageUrl,
+                                builder = {
+                                    placeholder(R.drawable.book_details_bg)
+                                    error(R.drawable.placeholder_cat)
+                                    crossfade(500)
+                                }
                             )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center
+                            ){
+                                Box(modifier = Modifier.shadow(24.dp)){
+                                    Image(
+                                        painter = painter,
+                                        contentDescription = "",
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .width(118.dp)
+                                            .height(169.dp),
+                                        contentScale = ContentScale.Crop
+                                    )
+                                }
+                            }
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = state.item.books.first().title,
+                                    modifier = Modifier
+                                        .padding(
+                                            start = 12.dp,
+                                            end = 8.dp,
+                                            top = 20.dp
+                                        )
+                                        .fillMaxWidth(),
+                                    fontSize = 24.sp,
+                                    fontFamily = comfortFont,
+                                    fontWeight = FontWeight.Bold,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
 
-                            Text(
-                                text = BookUtils.getAuthorsAsString(state.item.books.first().authors),
-                                modifier = Modifier.padding(start = 12.dp,end=8.dp),
-                                fontSize = 18.sp,
-                                fontFamily = comfortFont,
-                                fontWeight = FontWeight.SemiBold,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                            Text(
-                                text = stringResource(id = R.string.book_download_count).format(
-                                    Utils.prettyCount(state.item.books.first().downloadCount)
-                                ),
-                                modifier = Modifier.padding(start = 12.dp, end = 8.dp, top = 8.dp),
-                                fontSize = 14.sp,
-                                fontFamily = comfortFont,
-                                fontWeight = FontWeight.Medium,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
-                            Spacer(modifier = Modifier.height(50.dp))
+                                Text(
+                                    text = BookUtils.getAuthorsAsString(state.item.books.first().authors),
+                                    modifier = Modifier.padding(start = 12.dp,end=8.dp),
+                                    fontSize = 18.sp,
+                                    fontFamily = comfortFont,
+                                    fontWeight = FontWeight.SemiBold,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.book_download_count).format(
+                                        Utils.prettyCount(state.item.books.first().downloadCount)
+                                    ),
+                                    modifier = Modifier.padding(start = 12.dp, end = 8.dp, top = 8.dp),
+                                    fontSize = 14.sp,
+                                    fontFamily = comfortFont,
+                                    fontWeight = FontWeight.Medium,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                )
+                                Spacer(modifier = Modifier.height(50.dp))
+                            }
                         }
                     }
                 }
             }
-        }
 
-        val pageCount = if (state.extraInfo.pageCount > 0){
-            state.extraInfo.pageCount.toString()
-        }else{
-            stringResource(id = R.string.not_applicable)
-        }
-        
-        MiddleBar(
-            bookLang = BookUtils.getLanguagesAsString(state.item.books.first().languages),
-            pageCount = pageCount
-        ){
-            //TODO: Handle download button click
-        }
-        Text(
-            text = stringResource(id = R.string.book_synopsis),
-            modifier = Modifier.padding(start = 12.dp, end = 8.dp),
-            fontSize = 20.sp,
-            fontFamily = comfortFont,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
+            val pageCount = if (state.extraInfo.pageCount > 0){
+                state.extraInfo.pageCount.toString()
+            }else{
+                stringResource(id = R.string.not_applicable)
+            }
 
-        val synopsis = state.extraInfo.description.ifEmpty {
-            stringResource(id = R.string.book_synopsis_not_found)
+            MiddleBar(
+                bookLang = BookUtils.getLanguagesAsString(state.item.books.first().languages),
+                pageCount = pageCount
+            ){
+                //TODO: Handle download button click
+            }
+            Text(
+                text = stringResource(id = R.string.book_synopsis),
+                modifier = Modifier.padding(start = 12.dp, end = 8.dp),
+                fontSize = 20.sp,
+                fontFamily = comfortFont,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+
+            val synopsis = state.extraInfo.description.ifEmpty {
+                stringResource(id = R.string.book_synopsis_not_found)
+            }
+            Text(
+                text = synopsis,
+                modifier = Modifier.padding(14.dp),
+                fontFamily = comfortFont,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
         }
-        Text(
-            text = synopsis,
-            modifier = Modifier.padding(14.dp),
-            fontFamily = comfortFont,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
+    }else{
+        NoInternetScreen()
     }
 }
 

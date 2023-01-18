@@ -38,18 +38,7 @@ class MainActivity : ComponentActivity() {
                 val status by networkObserver.observe().collectAsState(
                     initial = NetworkObserver.Status.Unavailable
                 )
-                if(status == NetworkObserver.Status.Available){
-                    MainScreen()
-                }else{
-                    var showNoInternet by remember{ mutableStateOf(false) }
-                    LaunchedEffect(Unit){
-                        delay(250)
-                        showNoInternet = true
-                    }
-                    if(showNoInternet){
-                        NoInternetScreen()
-                    }
-                }
+                MainScreen(status)
             }
         }
     }
@@ -59,6 +48,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     FreeEbooksTheme {
-        MainScreen()
+        //MainScreen()
     }
 }

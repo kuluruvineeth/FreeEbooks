@@ -11,12 +11,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navArgument
+import com.kuluruvineeth.freeebooks.others.NetworkObserver
 import com.kuluruvineeth.freeebooks.ui.screens.*
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    networkStatus : NetworkObserver.Status
 ) {
     NavHost(
         navController = navController,
@@ -26,7 +28,7 @@ fun NavGraph(
             .background(MaterialTheme.colorScheme.background)
     ){
         composable(route = BottomBarScreen.Home.route){
-            HomeScreen(navController)
+            HomeScreen(navController,networkStatus)
         }
         composable(route = BottomBarScreen.Categories.route){
             CategoriesScreen()
@@ -47,7 +49,7 @@ fun NavGraph(
             )
         ){backStackEntry ->
             val bookId = backStackEntry.arguments!!.getString(BOOK_DETAIL_ARG_KEY)!!
-            BookDetailScreen(bookId,navController)
+            BookDetailScreen(bookId,navController,networkStatus)
         }
     }
 }

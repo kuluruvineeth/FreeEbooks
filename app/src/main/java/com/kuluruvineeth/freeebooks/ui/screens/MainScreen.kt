@@ -27,20 +27,21 @@ import androidx.navigation.compose.rememberNavController
 import com.kuluruvineeth.freeebooks.navigation.BottomBarScreen
 import com.kuluruvineeth.freeebooks.navigation.NavGraph
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kuluruvineeth.freeebooks.others.NetworkObserver
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen() {
+fun MainScreen(networkStatus: NetworkObserver.Status) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = {
             BottomBar(navController = navController)
         }
     ) {
-        NavGraph(navController = navController,it)
+        NavGraph(navController = navController,it,networkStatus)
     }
 }
 

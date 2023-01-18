@@ -1,5 +1,6 @@
 package com.kuluruvineeth.freeebooks.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Surface
@@ -23,49 +24,42 @@ import com.kuluruvineeth.freeebooks.R
 @Composable
 fun NoInternetScreen() {
 
-    Dialog(
-        onDismissRequest = { /*TODO*/ },
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false
-        )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_no_internet),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .height(225.dp)
-                        .fillMaxWidth()
-                )
-                
-                Text(
-                    text = stringResource(id = R.string.woops),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                    letterSpacing = 2.sp,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+        Icon(
+            painter = painterResource(id = R.drawable.ic_no_internet),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier
+                .size(250.dp)
+                .padding(end = 20.dp)
+        )
 
-                Text(
-                    text = stringResource(id = R.string.no_internet_connection),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(top = 10.dp, start = 25.dp, end = 25.dp)
-                        .fillMaxWidth(),
-                    letterSpacing = 1.sp,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }
-        }
+        Text(
+            text = stringResource(id = R.string.woops),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+            letterSpacing = 2.sp,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = stringResource(id = R.string.no_internet_connection),
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(top = 10.dp, start = 25.dp, end = 25.dp)
+                .fillMaxWidth(),
+            letterSpacing = 1.sp,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground
+        )
     }
 }
