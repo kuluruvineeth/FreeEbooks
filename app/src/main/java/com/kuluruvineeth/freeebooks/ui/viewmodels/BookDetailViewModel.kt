@@ -1,5 +1,6 @@
 package com.kuluruvineeth.freeebooks.ui.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -23,8 +24,7 @@ class BookDetailViewModel : ViewModel() {
     fun getBookDetails(bookId: String){
         viewModelScope.launch(Dispatchers.IO) {
             val bookItem = BooksApi.getBookById(bookId).getOrNull()!!
-            //val extraInfo = BooksApi.getExtraInfo(bookItem.books.firstOrNull()?.title ?: "AgriRize")
-            val extraInfo = ExtraInfo()
+            val extraInfo = BooksApi.getExtraInfo(bookItem.books.first().title)
             state = if(extraInfo!=null){
                 state.copy(
                     isLoading = false,

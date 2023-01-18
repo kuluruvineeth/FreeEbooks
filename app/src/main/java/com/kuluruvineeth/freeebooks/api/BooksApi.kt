@@ -34,7 +34,6 @@ object BooksApi {
 
     suspend fun getBookById(bookId: String): Result<BookSet>{
         val request = Request.Builder().get().url("${BASE_URL}?ids=$bookId").build()
-        Log.d("REQUEST : ",request.toString())
         return makeApiRequest(request)
     }
 
@@ -55,20 +54,18 @@ object BooksApi {
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
-                    Log.d("RESPONSE",response.body.toString())
                     continuation.resume(
                         parseExtraInfoJson(
-                            response.body!!.toString()
+                            response.body!!.string()
                         )
                     )
-                    println("RESPONSE : ${response.body!!}")
                 }
             }
         })
     }
 
     fun parseExtraInfoJson(jsonString: String): ExtraInfo? {
-        Log.d("RESPONSE",jsonString)
+        Log.d("RESPONSE Parse Json",jsonString)
         val jsonObj = JSONObject(jsonString)
         val totalItems = jsonObj.getInt("totalItems")
         return if (totalItems != 0) {
@@ -117,7 +114,6 @@ object BooksApi {
                             )
                         )
                     }
-                    Log.d("RESPONSE : ",response.body.toString())
                 }
             })
         }

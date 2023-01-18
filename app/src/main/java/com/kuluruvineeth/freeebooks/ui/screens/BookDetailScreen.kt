@@ -195,8 +195,7 @@ fun BookDetailScreen(bookId: String, navController: NavController) {
         }
         
         MiddleBar(
-            bookLang = state.item.books.firstOrNull()
-                ?.let { BookUtils.getLanguagesAsString(it.languages) } ?: "English",
+            bookLang = BookUtils.getLanguagesAsString(state.item.books.first().languages),
             pageCount = pageCount
         ){
             //TODO: Handle download button click

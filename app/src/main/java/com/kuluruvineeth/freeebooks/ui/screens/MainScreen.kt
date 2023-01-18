@@ -35,12 +35,6 @@ import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(
-        color = MaterialTheme.colorScheme.background,
-        darkIcons = !isSystemInDarkTheme()
-    )
     Scaffold(
         bottomBar = {
             BottomBar(navController = navController)
