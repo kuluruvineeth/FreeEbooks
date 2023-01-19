@@ -3,6 +3,7 @@ package com.kuluruvineeth.freeebooks
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -49,13 +50,19 @@ class MainActivity : ComponentActivity() {
     }
 
     fun checkStoragePermission(): Boolean{
-        return if(checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            Log.d("MainActivity::Storage", "Permission is granted"); true
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.d("MainActivity::Storage", "Permission is granted"); true
+            } else {
+                Log.d("MainActivity::Storage", "Permission is revoked")
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE), 1
+                ); false
+            }
         }else{
-            Log.d("MainActivity::Storage","Permission is revoked")
-            ActivityCompat.requestPermissions(
-                this, arrayOf(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),1
-            ); false
+            true
         }
     }
 }

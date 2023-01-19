@@ -50,7 +50,7 @@ class BookDetailViewModel : ViewModel() {
         }
     }
 
-    fun downloadBook(book: Book, activity: MainActivity){
+    fun downloadBook(book: Book, activity: MainActivity):String{
         if(activity.checkStoragePermission()){
             //setup download manager
             val filename = book.title.split(" ").joinToString("+")
@@ -71,9 +71,9 @@ class BookDetailViewModel : ViewModel() {
                 )
             //start downloading
             manager.enqueue(request)
-            activity.getString(R.string.downloading).toToast(activity)
+            return activity.getString(R.string.downloading)
         }else{
-            activity.getString(R.string.storage_perm_error).toToast(activity)
+            return activity.getString(R.string.storage_perm_error)
         }
     }
 }
