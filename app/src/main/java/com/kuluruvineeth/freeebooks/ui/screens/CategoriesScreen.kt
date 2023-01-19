@@ -10,7 +10,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -19,13 +18,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import java.util.*
 import com.kuluruvineeth.freeebooks.R
+import com.kuluruvineeth.freeebooks.navigation.Screens
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
-import com.kuluruvineeth.freeebooks.ui.viewmodels.CategoriesViewModel
+import com.kuluruvineeth.freeebooks.ui.viewmodels.CategoryViewModel
 
 @Composable
-fun CategoriesScreen() {
+fun CategoriesScreen(
+    navController: NavController
+) {
 
     Column(
         modifier = Modifier
@@ -37,29 +40,37 @@ fun CategoriesScreen() {
                 .fillMaxWidth()
                 .padding(20.dp)
         ) {
-            TopAppBar()
+            CategoryTopAppBar()
             Divider(
                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
-                thickness = 2.dp
+                thickness = 2.dp,
+                modifier = Modifier.padding(vertical = 2.dp)
             )
         }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp)
+                .padding(
+                    start = 10.dp,
+                    end = 10.dp
+                )
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(168.dp),
                 content = {
-                    items(CategoriesViewModel.CATEGORIES_ARRAY.size){ i ->
-                        val category = CategoriesViewModel.CATEGORIES_ARRAY[i].replaceFirstChar{
+                    items(CategoryViewModel.CATEGORIES_ARRAY.size){ i ->
+                        val category = CategoryViewModel.CATEGORIES_ARRAY[i].replaceFirstChar{
                             if(it.isLowerCase()) it.titlecase(
                                 Locale.getDefault()
                             )else it.toString()
                         }
                         CategoriesItem(category){
-
+                            navController.navigate(
+                                Screens.CategoryDetailScreen.withCategory(
+                                    category
+                                )
+                            )
                         }
                     }
                 }
@@ -69,7 +80,7 @@ fun CategoriesScreen() {
 }
 
 @Composable
-fun TopAppBar() {
+fun CategoryTopAppBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -134,5 +145,5 @@ fun CategoriesItem(
 @Preview
 @Composable
 fun CategoriesScreenPreview() {
-    CategoriesScreen()
+    //CategoriesScreen()
 }

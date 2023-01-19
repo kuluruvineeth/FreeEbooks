@@ -2,6 +2,7 @@ package com.kuluruvineeth.freeebooks.navigation
 
 
 const val BOOK_DETAIL_ARG_KEY = "bookId"
+const val CATEGORY_DETAIL_ARG_KEY = "category"
 
 sealed class Screens(val route: String){
 
@@ -12,4 +13,11 @@ sealed class Screens(val route: String){
         }
     }
 
+    object CategoryDetailScreen : Screens("category_detail_screen/{$CATEGORY_DETAIL_ARG_KEY}"){
+        fun withCategory(category: String): String{
+            return this.route.replace(
+                "{$CATEGORY_DETAIL_ARG_KEY}",category
+            )
+        }
+    }
 }

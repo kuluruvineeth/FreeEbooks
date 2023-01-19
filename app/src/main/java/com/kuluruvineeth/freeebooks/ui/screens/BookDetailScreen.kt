@@ -59,7 +59,7 @@ fun BookDetailScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            TopAppBar(
+            BookDetailTopBar(
                 onBackClicked = {
                     navController.navigateUp()
                 },
@@ -330,7 +330,7 @@ fun MiddleBar(
 }
 
 @Composable
-fun TopAppBar(
+fun BookDetailTopBar(
     onBackClicked: () -> Unit,
     onShareClicked: () -> Unit
 ) {
