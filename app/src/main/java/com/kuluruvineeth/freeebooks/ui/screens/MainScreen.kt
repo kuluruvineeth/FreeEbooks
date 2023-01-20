@@ -72,7 +72,7 @@ fun BottomBar(navController: NavHostController) {
                     isSelected = screen.route == currentDestination?.route
                 ){
                     navController.navigate(screen.route){
-                        popUpTo(navController.graph.findStartDestination().id)
+                        popUpTo(BottomBarScreen.Home.route)
                         launchSingleTop = true
                     }
                 }

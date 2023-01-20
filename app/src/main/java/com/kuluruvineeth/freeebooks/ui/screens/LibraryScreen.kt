@@ -1,5 +1,6 @@
 package com.kuluruvineeth.freeebooks.ui.screens
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -29,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 import com.kuluruvineeth.freeebooks.ui.viewmodels.LibraryViewModel
+import com.kuluruvineeth.freeebooks.utils.toToast
 
 @Composable
 fun LibraryScreen() {
@@ -101,7 +103,11 @@ fun LibraryScreen() {
                         ){
                             val intent = Intent(Intent.ACTION_VIEW)
                             intent.setDataAndType(Uri.parse(item.filePath),"application/epub+zip")
-                            context.startActivity(intent)
+                            try{
+                                context.startActivity(intent)
+                            } catch (exc : ActivityNotFoundException){
+                                context.getString(R.string.no_app_to_handle_epub).toToast(context)
+                            }
                         }
                     }else{
                         viewModel.deleteItem(item)
@@ -210,6 +216,7 @@ fun LibraryCard(
                         fontFamily = comfortFont,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Light,
+                        fontSize = 14.sp,
                         modifier = Modifier.padding(end = 6.dp)
                     )
                     Divider(
@@ -224,6 +231,7 @@ fun LibraryCard(
                         fontFamily = comfortFont,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Light,
+                        fontSize = 14.sp,
                         modifier = Modifier.padding(start = 6.dp)
                     )
                 }

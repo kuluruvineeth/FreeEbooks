@@ -6,6 +6,8 @@ const val CATEGORY_DETAIL_ARG_KEY = "category"
 
 sealed class Screens(val route: String){
 
+    object SplashScreen : Screens("splash_screen")
+
     object BookDetailScreen : Screens("book_detail_screen/{$BOOK_DETAIL_ARG_KEY}"){
 
         fun withBookId(id: String): String{
