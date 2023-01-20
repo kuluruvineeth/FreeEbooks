@@ -22,8 +22,10 @@ import com.kuluruvineeth.freeebooks.others.NetworkObserver
 import com.kuluruvineeth.freeebooks.ui.screens.MainScreen
 import com.kuluruvineeth.freeebooks.ui.screens.NoInternetScreen
 import com.kuluruvineeth.freeebooks.ui.theme.FreeEbooksTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var networkObserver: NetworkObserver

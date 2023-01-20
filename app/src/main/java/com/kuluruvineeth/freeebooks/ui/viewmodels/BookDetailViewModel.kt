@@ -1,7 +1,9 @@
 package com.kuluruvineeth.freeebooks.ui.viewmodels
 
+import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -20,7 +22,11 @@ import com.kuluruvineeth.freeebooks.utils.BookUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.kuluruvineeth.freeebooks.R
+import com.kuluruvineeth.freeebooks.database.LibraryDao
+import com.kuluruvineeth.freeebooks.database.LibraryItem
 import com.kuluruvineeth.freeebooks.utils.toToast
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 data class ScreenState(
     val isLoading: Boolean = true,
@@ -28,7 +34,10 @@ data class ScreenState(
     val extraInfo: ExtraInfo = ExtraInfo()
 )
 
-class BookDetailViewModel : ViewModel() {
+@HiltViewModel
+class BookDetailViewModel @Inject constructor(
+    private val libraryDao: LibraryDao
+) : ViewModel() {
     var state by mutableStateOf(ScreenState())
 
     fun getBookDetails(bookId: String){
@@ -50,10 +59,11 @@ class BookDetailViewModel : ViewModel() {
         }
     }
 
+    @SuppressLint("Range")
     fun downloadBook(book: Book, activity: MainActivity):String{
         if(activity.checkStoragePermission()){
             //setup download manager
-            val filename = book.title.split(" ").joinToString("+")
+            val filename = book.title.split(" ").joinToString("+") + ".epub"
             val manager = activity.getSystemService(
                 Context.DOWNLOAD_SERVICE
             ) as DownloadManager
@@ -67,13 +77,49 @@ class BookDetailViewModel : ViewModel() {
                 .setDescription(BookUtils.getAuthorsAsString(book.authors))
                 .setDestinationInExternalPublicDir(
                     Environment.DIRECTORY_DOWNLOADS,
-                    Constants.DOWNLOAD_DIR + "/" + "${filename}.epub"
+                    Constants.DOWNLOAD_DIR + "/" + filename
                 )
             //start downloading
-            manager.enqueue(request)
+            val downloadId = manager.enqueue(request)
+            viewModelScope.launch(Dispatchers.IO) {
+                var isDownlaodFinished = false
+                while (!isDownlaodFinished){
+                    val cursor: Cursor = manager.query(
+                        DownloadManager.Query().setFilterById(downloadId)
+                    )
+                    if(cursor.moveToFirst()){
+                        when(cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))){
+                            DownloadManager.STATUS_SUCCESSFUL -> {
+                                insertIntoDB(book, filename)
+                                isDownlaodFinished = true
+                            }
+                            DownloadManager.STATUS_PAUSED,
+                            DownloadManager.STATUS_PENDING -> {}
+                            DownloadManager.STATUS_FAILED -> {
+                                isDownlaodFinished = true
+                            }
+                        }
+                    }else{
+                        //Download cancelled by the user
+                        isDownlaodFinished = true
+                    }
+                    cursor.close()
+                }
+            }
             return activity.getString(R.string.downloading)
         }else{
             return activity.getString(R.string.storage_perm_error)
         }
+    }
+
+    private fun insertIntoDB(book: Book, filename: String){
+        val libraryItem = LibraryItem(
+            book.id,
+            book.title,
+            BookUtils.getAuthorsAsString(book.authors),
+            "/storage/emulated/0/${Environment.DIRECTORY_DOWNLOADS}/${Constants.DOWNLOAD_DIR}/$filename",
+            System.currentTimeMillis()
+        )
+        libraryDao.insert(libraryItem)
     }
 }

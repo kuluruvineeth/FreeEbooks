@@ -38,13 +38,17 @@ fun CategoriesScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp)
+                .padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 20.dp,
+                    bottom = 8.dp
+                )
         ) {
             CategoryTopAppBar()
             Divider(
                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
-                thickness = 2.dp,
-                modifier = Modifier.padding(vertical = 2.dp)
+                thickness = 2.dp
             )
         }
 
@@ -96,7 +100,7 @@ fun CategoryTopAppBar() {
         )
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.placeholder_cat),
-            contentDescription = stringResource(id = R.string.home_search_icon_desc),
+            contentDescription = null,
             tint = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.size(28.dp)
         )

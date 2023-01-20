@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
@@ -48,7 +49,7 @@ fun BookDetailScreen(
     navController: NavController,
     networkStatus: NetworkObserver.Status
 ) {
-    val viewModel = viewModel<BookDetailViewModel>()
+    val viewModel: BookDetailViewModel = hiltViewModel()
     viewModel.getBookDetails(bookId)
     val state = viewModel.state
     val context = LocalContext.current

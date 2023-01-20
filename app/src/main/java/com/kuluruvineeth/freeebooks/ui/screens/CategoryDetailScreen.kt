@@ -137,7 +137,11 @@ fun CategoryDetailTopBar(
     ) {
         Box(
             modifier = Modifier
-                .padding(22.dp)
+                .padding(
+                    start = 18.dp,
+                    top = 18.dp,
+                    bottom = 18.dp
+                )
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp))
                 .clickable { onBackClicked() }
@@ -148,17 +152,18 @@ fun CategoryDetailTopBar(
                     id = R.string.back_button_desc
                 ),
                 tint = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(14.dp)
+                modifier = Modifier.padding(10.dp)
             )
         }
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = category,
             modifier = Modifier.padding(bottom = 2.dp),
             color = MaterialTheme.colorScheme.onBackground,
             fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
             fontFamily = comfortFont,
-            fontSize = 28.sp
+            fontSize = 24.sp
         )
+        Spacer(modifier = Modifier.weight(1.56f))
     }
 }
