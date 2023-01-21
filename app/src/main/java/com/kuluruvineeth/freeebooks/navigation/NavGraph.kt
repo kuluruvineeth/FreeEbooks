@@ -1,10 +1,14 @@
 package com.kuluruvineeth.freeebooks.navigation
 
+import SettingsScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
@@ -14,6 +18,9 @@ import androidx.navigation.navArgument
 import com.kuluruvineeth.freeebooks.others.NetworkObserver
 import com.kuluruvineeth.freeebooks.ui.screens.*
 
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class,
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun NavGraph(
     navController: NavHostController,
@@ -42,7 +49,7 @@ fun NavGraph(
             LibraryScreen()
         }
         composable(route = BottomBarScreen.Settings.route){
-            SettingsScreen()
+            SettingsScreen(navController)
         }
 
         //Other Screens
@@ -67,6 +74,10 @@ fun NavGraph(
         ){backStackEntry ->
             val category = backStackEntry.arguments!!.getString(CATEGORY_DETAIL_ARG_KEY)!!
             CategoryDetailScreen(category, navController, networkStatus)
+        }
+
+        composable(route = Screens.OSLScreen.route){
+            OSLScreen(navController = navController)
         }
     }
 }
