@@ -35,42 +35,30 @@ data class ScreenState(
 )
 
 @HiltViewModel
-class BookDetailViewModel @Inject constructor(
-    private val libraryDao: LibraryDao
-) : ViewModel() {
+class BookDetailViewModel @Inject constructor(private val libraryDao: LibraryDao) : ViewModel() {
     var state by mutableStateOf(ScreenState())
 
-    fun getBookDetails(bookId: String){
+    fun getBookDetails(bookId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val bookItem = BooksApi.getBookById(bookId).getOrNull()!!
             val extraInfo = BooksApi.getExtraInfo(bookItem.books.first().title)
-            state = if(extraInfo!=null){
-                state.copy(
-                    isLoading = false,
-                    item = bookItem,
-                    extraInfo = extraInfo
-                )
-            }else{
-                state.copy(
-                    isLoading = false,
-                    item = bookItem
-                )
+            state = if (extraInfo != null) {
+                state.copy(isLoading = false, item = bookItem, extraInfo = extraInfo)
+            } else {
+                state.copy(isLoading = false, item = bookItem)
             }
         }
     }
 
     @SuppressLint("Range")
-    fun downloadBook(book: Book, activity: MainActivity):String{
-        if(activity.checkStoragePermission()){
-            //setup download manager
-            val filename = book.title.split(" ").joinToString("+") + ".epub"
-            val manager = activity.getSystemService(
-                Context.DOWNLOAD_SERVICE
-            ) as DownloadManager
+    fun downloadBook(book: Book, activity: MainActivity): String {
+        if (activity.checkStoragePermission()) {
+            // setup download manager.
+            val filename = book.title.split(" ").joinToString(separator = "+") + ".epub"
+            val manager = activity.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val uri = Uri.parse(book.formats.applicationepubzip)
             val request = DownloadManager.Request(uri)
-
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setAllowedOverRoaming(true)
                 .setAllowedOverMetered(true)
                 .setTitle(book.title)
@@ -79,40 +67,38 @@ class BookDetailViewModel @Inject constructor(
                     Environment.DIRECTORY_DOWNLOADS,
                     Constants.DOWNLOAD_DIR + "/" + filename
                 )
-            //start downloading
+            // start downloading.
             val downloadId = manager.enqueue(request)
             viewModelScope.launch(Dispatchers.IO) {
-                var isDownlaodFinished = false
-                while (!isDownlaodFinished){
-                    val cursor: Cursor = manager.query(
-                        DownloadManager.Query().setFilterById(downloadId)
-                    )
-                    if(cursor.moveToFirst()){
-                        when(cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))){
+                var isDownloadFinished = false
+                while (!isDownloadFinished) {
+                    val cursor: Cursor =
+                        manager.query(DownloadManager.Query().setFilterById(downloadId))
+                    if (cursor.moveToFirst()) {
+                        when (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
                             DownloadManager.STATUS_SUCCESSFUL -> {
                                 insertIntoDB(book, filename)
-                                isDownlaodFinished = true
+                                isDownloadFinished = true
                             }
-                            DownloadManager.STATUS_PAUSED,
-                            DownloadManager.STATUS_PENDING -> {}
+                            DownloadManager.STATUS_PAUSED, DownloadManager.STATUS_PENDING -> {}
                             DownloadManager.STATUS_FAILED -> {
-                                isDownlaodFinished = true
+                                isDownloadFinished = true
                             }
                         }
-                    }else{
-                        //Download cancelled by the user
-                        isDownlaodFinished = true
+                    } else {
+                        // Download cancelled by the user.
+                        isDownloadFinished = true
                     }
                     cursor.close()
                 }
             }
             return activity.getString(R.string.downloading)
-        }else{
+        } else {
             return activity.getString(R.string.storage_perm_error)
         }
     }
 
-    private fun insertIntoDB(book: Book, filename: String){
+    private fun insertIntoDB(book: Book, filename: String) {
         val libraryItem = LibraryItem(
             book.id,
             book.title,

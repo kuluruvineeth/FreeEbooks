@@ -26,11 +26,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kuluruvineeth.freeebooks.BuildConfig
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 import com.kuluruvineeth.freeebooks.ui.viewmodels.LibraryViewModel
 import com.kuluruvineeth.freeebooks.utils.toToast
+import java.io.File
 
 @Composable
 fun LibraryScreen() {
@@ -101,10 +104,18 @@ fun LibraryScreen() {
                             item.getFileSize(),
                             item.getDownloadDate()
                         ){
+                            val uri = FileProvider.getUriForFile(context,BuildConfig.APPLICATION_ID + ".provider",
+                                File(item.filePath)
+                            )
                             val intent = Intent(Intent.ACTION_VIEW)
-                            intent.setDataAndType(Uri.parse(item.filePath),"application/epub+zip")
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            intent.setDataAndType(uri,context.contentResolver.getType(uri))
+                            val chooser = Intent.createChooser(
+                                intent,
+                                context.getString(R.string.app_chooser)
+                            )
                             try{
-                                context.startActivity(intent)
+                                context.startActivity(chooser)
                             } catch (exc : ActivityNotFoundException){
                                 context.getString(R.string.no_app_to_handle_epub).toToast(context)
                             }
