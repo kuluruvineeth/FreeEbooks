@@ -51,6 +51,7 @@ import com.kuluruvineeth.freeebooks.BuildConfig
 import com.kuluruvineeth.freeebooks.MainActivity
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.navigation.Screens
+import com.kuluruvineeth.freeebooks.ui.common.CustomTopAppBar
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 import com.kuluruvineeth.freeebooks.ui.viewmodels.ThemeMode
 import com.kuluruvineeth.freeebooks.utils.PreferenceUtils
@@ -86,7 +87,7 @@ fun SettingsScreen(navController: NavController) {
         }
 
         SettingsCard {
-            //navController.navigate(Screens.AboutScreen.route)
+            navController.navigate(Screens.AboutScreen.route)
         }
 
         DisplayOptionsUI(context)
@@ -487,30 +488,6 @@ fun SettingItemWIthSwitch(
             }
             Switch(checked = switchState.value, onCheckedChange = { switchState.value = it })
         }
-    }
-}
-
-@Composable
-fun CustomTopAppBar(headerText: String, icon: Int) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 7.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = headerText,
-            fontSize = 28.sp,
-            color = MaterialTheme.colorScheme.onBackground,
-            fontFamily = comfortFont
-        )
-        Icon(
-            imageVector = ImageVector.vectorResource(id = icon),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.size(28.dp)
-        )
     }
 }
 

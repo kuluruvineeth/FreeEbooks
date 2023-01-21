@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import com.mikepenz.aboutlibraries.ui.compose.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
 import com.kuluruvineeth.freeebooks.R
+import com.kuluruvineeth.freeebooks.ui.common.CustomTopAppBar
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 
 @Composable
@@ -29,18 +30,8 @@ fun OSLScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 8.dp)
-        ) {
-            OSLTopAppBar{
-                navController.navigateUp()
-            }
-            Divider(
-                color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
-                thickness = 2.dp
-            )
+        CustomTopAppBar(headerText = stringResource(id = R.string.open_source_header)) {
+            navController.navigateUp()
         }
         LibrariesContainer(
             modifier = Modifier.fillMaxSize(),
@@ -54,42 +45,5 @@ fun OSLScreen(
                 badgeContentColor = MaterialTheme.colorScheme.onPrimary
             )
         )
-    }
-}
-
-@Composable
-fun OSLTopAppBar(onBackClicked: () -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(start = 18.dp, top = 2.dp, bottom = 18.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp))
-                .clickable { onBackClicked() }
-        ){
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack, 
-                contentDescription = stringResource(id = R.string.back_button_desc),
-                tint = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(10.dp)
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f))
-
-        Text(
-            text = stringResource(id = R.string.open_source_header),
-            modifier = Modifier.padding(
-                bottom = 16.dp
-            ),
-            color = MaterialTheme.colorScheme.onBackground,
-            fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
-            fontFamily = comfortFont,
-            fontSize = 24.sp
-        )
-        
-        Spacer(modifier = Modifier.weight(1.56f))
     }
 }

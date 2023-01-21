@@ -30,6 +30,7 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kuluruvineeth.freeebooks.BuildConfig
 import com.kuluruvineeth.freeebooks.R
+import com.kuluruvineeth.freeebooks.ui.common.CustomTopAppBar
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 import com.kuluruvineeth.freeebooks.ui.viewmodels.LibraryViewModel
 import com.kuluruvineeth.freeebooks.utils.toToast
@@ -56,7 +57,10 @@ fun LibraryScreen() {
                     bottom = 8.dp
                 )
         ) {
-            LibraryTopAppBar()
+            CustomTopAppBar(
+                headerText = stringResource(id = R.string.library_header),
+                icon = R.drawable.ic_nav_library
+            )
             Divider(
                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
                 thickness = 2.dp
@@ -126,31 +130,6 @@ fun LibraryScreen() {
                 }
             }
         }
-    }
-}
-
-
-@Composable
-fun LibraryTopAppBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 7.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = stringResource(id = R.string.library_header),
-            fontSize = 28.sp,
-            color = MaterialTheme.colorScheme.onBackground,
-            fontFamily = comfortFont
-        )
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_nav_library),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.size(28.dp)
-        )
     }
 }
 

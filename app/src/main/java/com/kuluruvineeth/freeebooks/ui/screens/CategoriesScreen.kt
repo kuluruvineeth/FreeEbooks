@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import java.util.*
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.navigation.Screens
+import com.kuluruvineeth.freeebooks.ui.common.CustomTopAppBar
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 import com.kuluruvineeth.freeebooks.ui.viewmodels.CategoryViewModel
 
@@ -45,7 +46,10 @@ fun CategoriesScreen(
                     bottom = 8.dp
                 )
         ) {
-            CategoryTopAppBar()
+            CustomTopAppBar(
+                headerText = stringResource(id = R.string.categories_header),
+                icon = R.drawable.ic_category_header
+            )
             Divider(
                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
                 thickness = 2.dp
@@ -80,30 +84,6 @@ fun CategoriesScreen(
                 }
             )
         }
-    }
-}
-
-@Composable
-fun CategoryTopAppBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 7.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = stringResource(id = R.string.categories_header),
-            fontSize = 28.sp,
-            color = MaterialTheme.colorScheme.onBackground,
-            fontFamily = comfortFont
-        )
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.placeholder_cat),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.size(28.dp)
-        )
     }
 }
 

@@ -31,6 +31,7 @@ import com.kuluruvineeth.freeebooks.ui.viewmodels.CategoryViewModel
 import com.kuluruvineeth.freeebooks.utils.BookUtils
 import kotlinx.coroutines.delay
 import com.kuluruvineeth.freeebooks.R
+import com.kuluruvineeth.freeebooks.ui.common.CustomTopAppBar
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 
 @Composable
@@ -50,12 +51,9 @@ fun CategoryDetailScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            CategoryDetailTopBar(
-                category = category,
-                onBackClicked = {
-                    navController.navigateUp()
-                }
-            )
+            CustomTopAppBar(headerText = category) {
+                navController.navigateUp()
+            }
             if(state.page == 1L && state.isLoading){
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -122,48 +120,5 @@ fun CategoryDetailScreen(
         if(showNoInternet){
             NoInternetScreen()
         }
-    }
-}
-
-@Composable
-fun CategoryDetailTopBar(
-    category: String,
-    onBackClicked: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(
-                    start = 18.dp,
-                    top = 18.dp,
-                    bottom = 18.dp
-                )
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp))
-                .clickable { onBackClicked() }
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack,
-                contentDescription = stringResource(
-                    id = R.string.back_button_desc
-                ),
-                tint = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(10.dp)
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = category,
-            modifier = Modifier.padding(bottom = 2.dp),
-            color = MaterialTheme.colorScheme.onBackground,
-            fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
-            fontFamily = comfortFont,
-            fontSize = 24.sp
-        )
-        Spacer(modifier = Modifier.weight(1.56f))
     }
 }

@@ -79,5 +79,9 @@ fun NavGraph(
         composable(route = Screens.OSLScreen.route){
             OSLScreen(navController = navController)
         }
+
+        composable(route = Screens.AboutScreen.route){
+            AboutScreen(navController = navController)
+        }
     }
 }

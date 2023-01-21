@@ -100,7 +100,7 @@ fun HomeScreen(navController: NavController,networkStatus: NetworkObserver.Statu
                             }
                         )
                     }else{
-                        TopAppBar(
+                        HomeTopAppBar(
                             onSearchIconClicked = {
                                 viewModel.onAction(
                                     UserAction.SearchIconClicked
@@ -226,7 +226,7 @@ fun HomeScreen(navController: NavController,networkStatus: NetworkObserver.Statu
 }
 
 @Composable
-fun TopAppBar(
+fun HomeTopAppBar(
     onSearchIconClicked: () -> Unit
 ) {
     Row(
