@@ -1,23 +1,14 @@
 package com.kuluruvineeth.freeebooks.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 
-import android.app.Activity
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.ViewCompat
 import com.kuluruvineeth.freeebooks.ui.viewmodels.ThemeMode
-import com.kuluruvineeth.freeebooks.ui.viewmodels.ThemeViewModel
+import com.kuluruvineeth.freeebooks.ui.viewmodels.SettingsViewModel
 
 private val LightColors = lightColorScheme(
     onErrorContainer = md_theme_light_onErrorContainer,
@@ -81,12 +72,12 @@ private val DarkColors = darkColorScheme(
 @Composable
 fun FreeEbooksTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    themeViewModel: ThemeViewModel,
+    settingsViewModel: SettingsViewModel,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-    val themeState = themeViewModel.theme.observeAsState(initial = ThemeMode.Auto)
-    val materialYouState = themeViewModel.materialYou.observeAsState(
+    val themeState = settingsViewModel.theme.observeAsState(initial = ThemeMode.Auto)
+    val materialYouState = settingsViewModel.materialYou.observeAsState(
         initial = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     )
 

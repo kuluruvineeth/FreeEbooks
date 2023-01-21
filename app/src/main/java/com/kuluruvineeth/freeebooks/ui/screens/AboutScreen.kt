@@ -1,6 +1,7 @@
 package com.kuluruvineeth.freeebooks.ui.screens
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -32,75 +33,107 @@ import com.kuluruvineeth.freeebooks.others.Constants
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 
 @Composable
-fun AboutScreen(
-    navController: NavController
-) {
+fun AboutScreen(navController: NavController) {
     val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        CustomTopAppBar(headerText = stringResource(id = R.string.about_header)){
+        CustomTopAppBar(headerText = stringResource(id = R.string.about_header)) {
             navController.navigateUp()
         }
-        
-        Box(
+
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(148.dp),
-            contentAlignment = Alignment.Center
-        ){
+                .padding(start = 14.dp, end = 14.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                    4.dp
+                )
+            ),
+        ) {
             Box(
                 modifier = Modifier
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp))
-            ){
-                Image(
-                    modifier = Modifier.size(100.dp),
-                    painter = painterResource(id = R.drawable.ic_splash_screen),
-                    contentDescription = null
-                )
+                    .fillMaxWidth()
+                    .height(148.dp), contentAlignment = Alignment.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surface)
+                ) {
+                    Image(
+                        modifier = Modifier.size(120.dp),
+                        painter = painterResource(id = R.drawable.ic_splash_screen),
+                        contentDescription = null
+                    )
+                }
             }
+
+            Text(
+                text = stringResource(id = R.string.app_name),
+                modifier = Modifier.fillMaxWidth(),
+                fontSize = 26.sp,
+                fontFamily = comfortFont,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = "Version ${BuildConfig.VERSION_NAME}",
+                modifier = Modifier.fillMaxWidth(),
+                fontSize = 14.sp,
+                fontFamily = comfortFont,
+                fontWeight = FontWeight.Normal,
+                color = MaterialTheme.colorScheme.onBackground,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = stringResource(id = R.string.about_desc),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 22.dp, end = 22.dp),
+                fontSize = 14.sp,
+                fontFamily = comfortFont,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onBackground,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Row {
+                    LinkButton(
+                        text = "Github",
+                        icon = ImageVector.vectorResource(id = R.drawable.ic_github_logo)
+                    ) {
+                        openWebLink(context, Constants.REPO_URL)
+                    }
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    LinkButton(
+                        text = "LinkedIn",
+                        icon = painterResource(id = R.drawable.ic_linkedin_logo)
+                    ) {
+                        openWebLink(context, Constants.DEV_LINKEDIN_URL)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
         }
 
-        Text(
-            text = stringResource(id = R.string.app_name),
-            modifier = Modifier.fillMaxWidth(),
-            fontSize = 24.sp,
-            fontFamily = comfortFont,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Text(
-            text = "Version ${BuildConfig.VERSION_NAME}",
-            modifier = Modifier.fillMaxWidth(),
-            fontSize = 14.sp,
-            fontFamily = comfortFont,
-            fontWeight = FontWeight.Normal,
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = stringResource(id = R.string.about_desc),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 22.dp, end = 22.dp),
-            fontSize = 14.sp,
-            fontFamily = comfortFont,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center
-        )
-        
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = stringResource(id = R.string.developed_by),
@@ -110,24 +143,23 @@ fun AboutScreen(
             fontSize = 16.sp,
             fontFamily = comfortFont,
             fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            textAlign = TextAlign.Center
         )
+
 
         Card(
             modifier = Modifier
                 .height(135.dp)
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(start = 14.dp, end = 14.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                     2.dp
                 )
-            )
+            ),
         ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     painter = painterResource(id = R.drawable.github_profile),
                     contentDescription = null,
@@ -147,7 +179,7 @@ fun AboutScreen(
                         fontSize = 18.sp,
                         fontFamily = comfortFont,
                         fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
@@ -157,43 +189,33 @@ fun AboutScreen(
                         fontSize = 16.sp,
                         fontFamily = comfortFont,
                         fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
-                    
+
                     Spacer(modifier = Modifier.height(6.dp))
 
                     Row {
                         LinkButton(
                             text = "Github",
                             icon = ImageVector.vectorResource(id = R.drawable.ic_github_logo)
-                        ){
-                            val uri: Uri = Uri.parse(Constants.DEV_GITHUB_URL)
-                            val intent = Intent(Intent.ACTION_VIEW,uri)
-                            try {
-                                context.startActivity(intent)
-                            }catch (exc: ActivityNotFoundException){
-                                exc.printStackTrace()
-                            }
+                        ) {
+                            openWebLink(context, Constants.DEV_GITHUB_URL)
                         }
+
                         Spacer(modifier = Modifier.height(6.dp))
-                        
+
                         LinkButton(
                             text = "LinkedIn",
                             icon = painterResource(id = R.drawable.ic_linkedin_logo)
-                        ){
-                            val uri: Uri = Uri.parse(Constants.DEV_LINKEDIN_URL)
-                            val intent = Intent(Intent.ACTION_VIEW,uri)
-                            try {
-                                context.startActivity(intent)
-                            }catch (exc : ActivityNotFoundException){
-                                exc.printStackTrace()
-                            }
+                        ) {
+                            openWebLink(context, Constants.DEV_LINKEDIN_URL)
                         }
                     }
                 }
             }
         }
     }
+
 }
 
 @Composable
@@ -231,5 +253,15 @@ fun LinkButton(
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.padding(start = 4.dp)
         )
+    }
+}
+
+fun openWebLink(context: Context, url: String){
+    val uri: Uri = Uri.parse(url)
+    val intent = Intent(Intent.ACTION_VIEW, uri)
+    try {
+        context.startActivity(intent)
+    }catch (exc: ActivityNotFoundException){
+        exc.printStackTrace()
     }
 }
