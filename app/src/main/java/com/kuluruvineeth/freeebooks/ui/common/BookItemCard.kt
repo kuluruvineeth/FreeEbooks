@@ -36,7 +36,7 @@ fun BookItemCard(
 ) {
     Card(
         modifier = Modifier
-            .height(185.dp)
+            .height(165.dp)
             .fillMaxWidth(),
         onClick = onClick,
         colors = CardDefaults.cardColors(
@@ -100,7 +100,7 @@ fun BookItemCard(
                         )
                         .fillMaxWidth(),
                     fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurface
