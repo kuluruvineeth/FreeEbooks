@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kuluruvineeth.freeebooks.api.BooksApi
 import com.kuluruvineeth.freeebooks.api.models.Book
-import com.kuluruvineeth.freeebooks.others.PaginatorImpl
+import com.kuluruvineeth.freeebooks.others.Paginator
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -39,7 +39,7 @@ class HomeViewModel : ViewModel() {
     var allBooksState by mutableStateOf(AllBooksState())
     var topBarState by mutableStateOf(TopBarState())
 
-    private val paginator = PaginatorImpl(
+    private val paginator = Paginator(
         initialPage = allBooksState.page,
         onLoadUpdated = {
             allBooksState = allBooksState.copy(isLoading = it)

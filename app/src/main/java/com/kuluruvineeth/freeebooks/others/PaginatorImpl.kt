@@ -1,6 +1,6 @@
 package com.kuluruvineeth.freeebooks.others
 
-class PaginatorImpl<Page,BookSet>(
+/*class PaginatorImpl<Page,BookSet>(
     private val initialPage: Page,
     private inline val onLoadUpdated: (Boolean) -> Unit,
     private inline val onRequest: suspend (nextPage: Page) -> Result<BookSet>,
@@ -33,4 +33,4 @@ class PaginatorImpl<Page,BookSet>(
     override fun reset() {
         currentKey = initialPage
     }
-}
+}*/

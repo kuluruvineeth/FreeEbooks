@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kuluruvineeth.freeebooks.api.BooksApi
 import com.kuluruvineeth.freeebooks.api.models.Book
-import com.kuluruvineeth.freeebooks.others.PaginatorImpl
+import com.kuluruvineeth.freeebooks.others.Paginator
 import kotlinx.coroutines.launch
 
 data class CategorisedBooksState(
@@ -47,7 +47,7 @@ class CategoryViewModel(category: String) : ViewModel() {
 
     var state by mutableStateOf(CategorisedBooksState())
 
-    private val paginator = PaginatorImpl(
+    private val paginator = Paginator(
         initialPage = state.page,
         onLoadUpdated = {
             state = state.copy(isLoading = it)

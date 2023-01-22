@@ -17,7 +17,7 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0.0-beta"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -90,7 +90,7 @@ dependencies {
     // OkHttp library.
     implementation "com.squareup.okhttp3:okhttp:4.10.0"
     // Coil Image loading library.
-    implementation "io.coil-kt:coil-compose:$compose_version"
+    implementation "io.coil-kt:coil-compose:2.2.2"
     // Room database components.
     implementation "androidx.room:room-ktx:2.4.3"
     kapt "androidx.room:room-compiler:2.4.3"
@@ -106,6 +106,9 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries-compose:10.5.2"
     // Swipe actions.
     implementation "me.saket.swipe:swipe:1.0.0"
+
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.29.0-alpha"
+
     // Testing components.
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'

@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material3.Text
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.TextFieldDefaults
@@ -67,6 +68,7 @@ fun HomeScreen(navController: NavController,networkStatus: NetworkObserver.Statu
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
+                .padding(bottom = 70.dp)
         ) {
             Column(
                 modifier = Modifier

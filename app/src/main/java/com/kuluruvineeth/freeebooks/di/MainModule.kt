@@ -2,6 +2,7 @@ package com.kuluruvineeth.freeebooks.di
 
 import android.content.Context
 import com.kuluruvineeth.freeebooks.database.FreeebooksDatabase
+import com.kuluruvineeth.freeebooks.others.BookDownloader
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +25,8 @@ class MainModule {
 
     @Provides
     fun provideLibraryDao(freeebooksDatabase: FreeebooksDatabase) = freeebooksDatabase.getLibraryDao()
+
+    @Singleton
+    @Provides
+    fun provideBookDownloader(@ApplicationContext context: Context) = BookDownloader(context)
 }

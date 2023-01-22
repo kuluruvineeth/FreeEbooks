@@ -70,4 +70,19 @@
 
     <string name="error">Oops! Something went wrong.</string>
     <string name="share_app_chooser">Share with…</string>
+
+    <string name="update_available">New version available</string>
+    <string name="no_update_available">You are already running latest version!</string>
+    <string name="downloading_update">Downloading Update…</string>
+    <string name="read_book_button">Start Reading</string>
+    <string name="download_book_button">Download</string>
+    <string name="cancel">Cancel</string>
+    <string name="downloading_book">Download Started!</string>
+    <string name="dialog_confirm_button">Confirm</string>
+    <string name="library_delete_dialog_title">Are you sure about that?</string>
+    <string name="library_read_button">Read</string>
+    <string name="library_delete_button">Delete</string>
+    <string name="theme_dialog_title">Change Theme</string>
+    <string name="theme_dialog_apply_button">Apply</string>
+    <string name="open_app_chooser">Open with…</string>
 </resources>

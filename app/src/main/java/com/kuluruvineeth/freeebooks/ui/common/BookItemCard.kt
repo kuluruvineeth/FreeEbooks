@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.kuluruvineeth.freeebooks.R
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,29 +63,14 @@ fun BookItemCard(
                     .clip(RoundedCornerShape(6.dp))
                     .background(imageBackground)
             ) {
-                val painter = rememberImagePainter(
-                    ImageRequest.Builder(LocalContext.current).data(data = coverImageUrl)
-                        .apply(block = fun ImageRequest.Builder.() {
-                            placeholder(R.drawable.placeholder_cat)
-                            error(R.drawable.placeholder_cat)
-                            crossfade(500)
-                        }).build()
-                )
-                Image(
-                    painter = painter,
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current).data(coverImageUrl)
+                        .crossfade(true).build(),
+                    placeholder = painterResource(id = R.drawable.placeholder_cat),
                     contentDescription = stringResource(id = R.string.cover_image_desc),
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
-                if(painter.state is ImagePainter.State.Loading){
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
             }
             Column(
                 modifier = Modifier

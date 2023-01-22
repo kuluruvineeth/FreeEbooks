@@ -2,6 +2,9 @@ package com.kuluruvineeth.freeebooks.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -24,6 +27,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.kuluruvineeth.freeebooks.navigation.BottomBarScreen
 import com.kuluruvineeth.freeebooks.navigation.NavGraph
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -31,17 +35,18 @@ import com.kuluruvineeth.freeebooks.others.NetworkObserver
 import com.kuluruvineeth.freeebooks.ui.theme.comfortFont
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(networkStatus: NetworkObserver.Status) {
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
     Scaffold(
         bottomBar = {
             BottomBar(navController = navController)
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.background
     ) {
-        NavGraph(navController = navController,it,networkStatus)
+        NavGraph(navController = navController,networkStatus)
     }
 }
 
@@ -57,28 +62,37 @@ fun BottomBar(navController: NavHostController) {
     val currentDestination = navBackStackEntry?.destination
     val bottomBarDestination = screens.any { it.route == currentDestination?.route }
 
-    if(bottomBarDestination){
-        Row(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
-                .padding(8.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            screens.forEach { screen ->
-                CustomBottomNavigationItem(
-                    screen = screen,
-                    isSelected = screen.route == currentDestination?.route
-                ){
-                    navController.navigate(screen.route){
-                        popUpTo(BottomBarScreen.Home.route)
-                        launchSingleTop = true
+
+    AnimatedVisibility(
+        visible = bottomBarDestination,
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .fillMaxWidth(),
+        enter = slideInVertically(initialOffsetY = {it}),
+        exit = slideOutVertically(targetOffsetY = {it}),
+        content = {
+            Row(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                    .padding(12.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                screens.forEach { screen ->
+                    CustomBottomNavigationItem(
+                        screen = screen,
+                        isSelected = screen.route == currentDestination?.route
+                    ){
+                        navController.navigate(screen.route){
+                            popUpTo(BottomBarScreen.Home.route)
+                            launchSingleTop = true
+                        }
                     }
                 }
             }
         }
-    }
+    )
 }
 
 

@@ -18,4 +18,7 @@ interface LibraryDao {
 
     @Query("SELECT * FROM book_library ORDER BY id ASC")
     fun getAllItems(): LiveData<List<LibraryItem>>
+
+    @Query("SELECT * FROM book_library WHERE book_id= :bookId")
+    fun getItemById(bookId: Int): LibraryItem?
 }
